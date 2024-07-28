@@ -1,0 +1,17 @@
+{
+    "UPLOAD_SUCCESS_MSG": "Image uploaded successfully.",
+    "WALL_DETECTION_SUCCESS_MSG": "Wall detected successfully.",
+    "WALLPAPER_APPLY_SUCCESS_MSG": "Wallpaper applied successfully.",
+    "WALL_WIDTH_INPUT_SUCCESS_MSG": "Wall width set successfully.",
+    "UPLOAD_ERR_MSG": "There was an error uploading your image. Please try again.",
+    "WALL_DETECTION_ERR_MSG": "No walls could be detected. If you believe this is a mistake, please try again.",
+    "WALLPAPER_APPLY_ERR_MSG": "The selected wallpaper could not be applied. Please try again.",
+    "UNKNOWN_ERR_MSG": "An unknown error occurred. Please try again.",
+    "APPLY_BEFORE_UPLOAD_ERR_MSG": "Please upload an image of your wall prior to selecting a wallpaper.",
+    "WALL_WIDTH_INPUT_ERR_MSG": "Please enter a valid width in feet and inches.",
+    "APPLY_BEFORE_WALL_WIDTH_ERR_MSG": "Please enter your wall's width in feet and inches prior to selecting a wallpaper.",
+
+    "IMAGE_FOLDER_PATH": "../assets/",
+    "WALLPAPER_FOLDER_PATH": "../assets/Wallpapers/",
+    "ALL_WALLPAPERS": ["wallpaper1.jpg", "wallpaper2.jpg", "wallpaper3.jpg", "wallpaper4.jpg", "wallpaper5.jpg", "wallpaper6.jpg", "wallpaper7.jpg", "wallpaper8.jpg", "wallpaper9.jpg", "wallpaper10.jpg", "wallpaper11.jpg", "wallpaper12.jpg", "wallpaper13.jpg", "wallpaper14.jpg", "wallpaper15.jpg", "wallpaper16.jpg"]
+}
