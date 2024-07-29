@@ -379,6 +379,8 @@ export default {
         margin: 10px 0 5px;
         text-align: left;
         font-weight: 500;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
     }
 
     .contact_form input,
@@ -389,6 +391,9 @@ export default {
         border-radius: 10px;
         background-color: transparent;
         margin-bottom: 20px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 500;
+        font-size: 16px;
     }
     .contact_form textarea {
         resize: none;
