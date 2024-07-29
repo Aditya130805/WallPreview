@@ -11,4 +11,9 @@ Transform your home design experience with WallPreview! Easily visualize wallpap
 - **Responsive Design**: Enjoy a smooth experience on any device.
 
 ## Live
+
 Check out WallPreview at: [wallpreviews.com](https://wallpreviews.com/)
+
+## Credits
+
+Wallpaper images from: https://www.debenhams.com/categories/brands-fresco
