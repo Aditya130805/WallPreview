@@ -11,4 +11,4 @@ Transform your home design experience with WallPreview! Easily visualize wallpap
 - **Responsive Design**: Enjoy a smooth experience on any device.
 
 ## Live
-Check out WallPreview at: [wallpreview.in](https://www.wallpreview.in/)
+Check out WallPreview at: [wallpreviews.com](https://wallpreviews.com/)
