@@ -1,7 +1,7 @@
 <template>
     <section class="landing_container">
         <header>
-            <a href="#" class="logo">WallPreviews</a>
+            <a href="#" class="logo"><div></div></a>
             <nav>
                 <ul>
                     <li class="nav_items"><a href="#">Home</a></li>
@@ -13,9 +13,9 @@
         <main class="home_container">
             <div class="preview-box"></div>
             <div class="description">
-                <h1>Ditch the Decor Dilemmas: Try <span>WallPreviews</span> Before & After</h1>
+                <h1>Ditch the Decor Dilemmas: Try <span>WallPreviews</span></h1>
                 <p>Upload a picture of your wall and crop it to fit your dimensions, without worrying about any items in front of it. Browse by style, and see wallpapers come to life in your space.</p>
-                <a href="https://www.wallpreviews.com/" class="try-now">Try it now! (Free)</a>
+                <a href="https://preview.wallpreviews.com/" class="try-now">Try it now! (Free)</a>
             </div>
         </main>
     </section>
@@ -126,6 +126,14 @@ export default {
         font-weight: 700;
         color: var(--black-color);
         text-decoration: none;
+    }
+    .logo div {
+        background: url('../assets/logo.png');
+        width: 162px;
+        height: 80px;
+        background-position: center;
+        background-size: cover;
+        filter: hue-rotate(100deg) brightness(0.5) contrast(1.2);
     }
     
     nav ul {
