@@ -6,6 +6,8 @@ npm run build
 
 cd dist
 
+echo "wallpreviews.com" > CNAME
+
 git init
 git add -A
 git commit -m "Automated deployment of the latest version"
