@@ -13,8 +13,8 @@ CONSTANTS = {
     'IMAGE_FOLDER_PATH': './uploads/',
     'WALLPAPER_FOLDER_PATH': './wallpapers/',
     'ALLOWED_ORIGINS': [
-        'http://localhost:8080',
-        'https://wallpreviews.vercel.app',  # Update with your Vercel domain
+        # 'http://localhost:8080',
+        'https://wallpreviews.vercel.app',
     ]
 }
 
