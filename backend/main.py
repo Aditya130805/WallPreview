@@ -15,6 +15,8 @@ CONSTANTS = {
     'ALLOWED_ORIGINS': [
         # 'http://localhost:8080',
         'https://wallpreviews.vercel.app',
+        'https://wallpreviews.com',
+        'https://www.wallpreviews.com'
     ]
 }
 
