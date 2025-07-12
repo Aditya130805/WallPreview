@@ -17,3 +17,4 @@ Check out WallPreview at: [wallpreviews.com](https://wallpreviews.com/)
 ## Credits
 
 Wallpaper images from: https://www.debenhams.com/categories/brands-fresco
+Image segmentation model from: https://huggingface.co/badmatr11x/semantic-image-segmentation

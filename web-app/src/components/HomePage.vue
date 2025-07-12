@@ -15,7 +15,7 @@
             <div class="description">
                 <h1>Ditch the Decor Dilemmas: Try <span>WallPreviews</span></h1>
                 <p>Upload a picture of your wall and crop it to fit your dimensions, without worrying about any items in front of it. Browse by style, and see wallpapers come to life in your space.</p>
-                <a href="https://preview.wallpreviews.com/" class="try-now">Try it now! (Free)</a>
+                <router-link to="/app" class="try-now">Try it now! (Free)</router-link>
             </div>
         </main>
     </section>
@@ -70,7 +70,7 @@
 import constants from '@/assets/constants.json';
 
 export default {
-    name: 'App',
+    name: 'HomePage',
     data() {
         return {
             wallpapers: constants.ALL_WALLPAPERS

@@ -1,28 +1,41 @@
 <template>
   <main>
-    <HomePage />
+    <router-view :isInRatio="isInRatio"></router-view>
   </main>
 </template>
 
 <script>
-import HomePage from './components/HomePage.vue';
-
 export default {
   name: 'App',
-  components: {
-    HomePage
+  data() {
+    return {
+      isInRatio: true
+    }
+  },
+  methods: {
+    switch_version () {
+      const width = window.innerWidth;
+      if (width > 1500) {
+        console.log("In!")
+        this.isInRatio = true;
+      }
+      else {
+        this.isInRatio = false;
+      }
+    }
+  },
+  created() {
+    this.switch_version()
+    window.addEventListener('resize', this.switch_version);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.switch_version);
   }
 };
 </script>
 
 <style>
 * {
-  margin: 0;
-  padding: 0;
-}
-main {
-  width: auto;
-  height: auto;
   margin: 0;
   padding: 0;
 }

@@ -1,0 +1,101 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+from wallpaper import WallPreview
+import json
+import base64
+import cv2
+import os
+
+# Define constants
+CONSTANTS = {
+    'IMAGE_FOLDER_PATH': './uploads/',
+    'WALLPAPER_FOLDER_PATH': './wallpapers/',
+    'ALLOWED_ORIGINS': [
+        'http://localhost:8080',
+        'https://wallpreviews.vercel.app',  # Update with your Vercel domain
+    ]
+}
+
+# Create upload directories if they don't exist
+os.makedirs(CONSTANTS['IMAGE_FOLDER_PATH'], exist_ok=True)
+os.makedirs(CONSTANTS['WALLPAPER_FOLDER_PATH'], exist_ok=True)
+
+# Initialize FastAPI app
+app = FastAPI(title="WallPreviews Backend API")
+user_wall = None
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=CONSTANTS['ALLOWED_ORIGINS'],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
+class ImageUpload(BaseModel):
+    image: str
+
+@app.post("/upload")
+async def upload_file(image_upload: ImageUpload):
+    image_data = image_upload.image
+    try:
+        header, base64_data = image_data.split(',')
+        image_bytes = base64.b64decode(base64_data)
+        image_path = f"{CONSTANTS['IMAGE_FOLDER_PATH']}cropped_image.jpg"
+        with open(image_path, 'wb') as buffer:
+            buffer.write(image_bytes)
+        global user_wall
+        user_wall = WallPreview()
+        return True
+    except Exception as e:
+        print(f"Error in upload: {str(e)}")
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+class InitializePreviewInput(BaseModel):
+    image_path: str
+
+@app.post("/initialize")
+async def initialize_program(user_input: InitializePreviewInput):
+    try:
+        response = user_wall.generate_wall_mask(f"{CONSTANTS['IMAGE_FOLDER_PATH']}{user_input.image_path}")
+        if not response:
+            response = user_wall.generate_wall_mask(f"{CONSTANTS['IMAGE_FOLDER_PATH']}{user_input.image_path}")
+        return response
+    except Exception as e:
+        print(f"Error in initialize: {str(e)}")
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+class ApplyWallpaperInput(BaseModel):
+    image_path: str
+    wallpaper_path: str
+    wall_width: int
+
+@app.post("/apply")
+async def apply_file(choices: ApplyWallpaperInput):
+    global user_wall
+    try:
+        if user_wall is None:
+            return JSONResponse(content={"error": "Wall preview not initialized"}, status_code=400)
+        
+        result_image = user_wall.apply_wallpaper(
+            f"{CONSTANTS['IMAGE_FOLDER_PATH']}{choices.image_path}", 
+            f"{CONSTANTS['WALLPAPER_FOLDER_PATH']}{choices.wallpaper_path}", 
+            choices.wall_width
+        )
+        if result_image is not None:
+            _, encoded_img = cv2.imencode('.jpg', result_image)
+            base64_img = base64.b64encode(encoded_img.tobytes())
+            return JSONResponse(content={"image": base64_img.decode('utf-8')})
+        else:
+            return False
+    except Exception as e:
+        print(f"Error in apply: {str(e)}")
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+if __name__ == "__main__":
+    import uvicorn
+    # Start the server
+    uvicorn.run(app, host="0.0.0.0", port=8000)
