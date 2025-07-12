@@ -11,8 +11,19 @@
     "WALL_WIDTH_INPUT_ERR_MSG": "Please enter a valid width in feet and inches.",
     "APPLY_BEFORE_WALL_WIDTH_ERR_MSG": "Please enter your wall's width in feet and inches prior to selecting a wallpaper.",
 
+    "ROLL_WIDTH_INPUT_ERR_MSG": "Please enter a valid width in just inches (up to 100, respectively)",
+    "ROLL_WIDTH_INPUT_SUCCESS_MSG": "Roll width set successfully.",
+    "APPLY_BEFORE_ROLL_WIDTH_ERR_MSG": "Please enter the roll's width in inches prior to applying a wallpaper.",
+    "APPLY_BEFORE_SHIFT_INPUT_ERR_MSG": "Please pattern match your custom wallpaper prior to applying it.",
+    "WALLPAPER_SHIFT_INPUT_SUCCESS_MSG": "Wallpaper shift set successfully.",
+    "APPLY_BEFORE_WALLPAPER_CHOICE_ERR_MSG": "Please choose a wallpaper prior to applying it.",
+
     "IMAGE_FOLDER_PATH": "../assets/",
     "WALLPAPER_FOLDER_PATH": "../assets/Wallpapers/",
     "ALL_WALLPAPERS": ["wallpaper1.jpg", "wallpaper2.jpg", "wallpaper3.jpg", "wallpaper4.jpg", "wallpaper5.jpg", "wallpaper6.jpg", "wallpaper7.jpg", "wallpaper8.jpg", "wallpaper9.jpg", "wallpaper10.jpg", "wallpaper11.jpg", "wallpaper12.jpg", "wallpaper13.jpg", "wallpaper14.jpg", "wallpaper15.jpg", "wallpaper16.jpg"],
-    "API_URL": "https://wallpreview-production.up.railway.app"
+    "CUSTOM_WALLPAPER_NAME": "wallpaperCustom.jpg",
+    "API_URL_2": "https://wallpreview-production.up.railway.app",
+    "API_URL": "http://localhost:8000",
+
+    "ROLL_WIDTH_CAP": 100
 }

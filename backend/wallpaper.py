@@ -7,6 +7,7 @@ from PIL import Image
 from transformers import AutoImageProcessor, SegformerForSemanticSegmentation
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 class WallPreview:
@@ -106,65 +107,45 @@ class WallPreview:
     def get_original_image(filename):
         return cv2.imread(filename, cv2.IMREAD_COLOR)
 
-    def apply_wallpaper(self, img_path, wallpaper_path, wall_width):
+    # .shape gives [height, width, channels]
+    def apply_wallpaper(self, img_path, wallpaper_path, wall_width, roll_width, best_shift):
+
         image = self.get_original_image(img_path)
-        wallpaper = self.get_original_image(wallpaper_path)
         if image is None or self.mask is None:
             return False
         mask = self.mask
-
-        def find_best_vertical_shift(wallpaper):
-            """
-            Find the best vertical shift to align the wallpaper pattern horizontally using Normalized Cross-Correlation.
-            """
-            height, width, _ = wallpaper.shape
-            strip_width = 10  # Width of the vertical strips to compare
-            right_edge_strip = wallpaper[:, -strip_width:, :]
-            min_diff = float('inf')
-            best_shift = 0
-
-            for shift in range(height):
-                shifted_wallpaper = np.roll(wallpaper, shift, axis=0)
-                left_edge_strip = shifted_wallpaper[:, :strip_width, :]
-                ncc = np.sum((right_edge_strip - np.mean(right_edge_strip)) * (left_edge_strip - np.mean(left_edge_strip))) / \
-                    (np.std(right_edge_strip) * np.std(left_edge_strip) * right_edge_strip.size)
-                diff = 1 - ncc  # NCC ranges from -1 to 1, so we invert it to get the minimum difference
-                if diff < min_diff:
-                    min_diff = diff
-                    best_shift = shift
-
-            return best_shift
-
-        # Find the best vertical shift to align the pattern
-        best_shift = find_best_vertical_shift(wallpaper)
-
+        
+        wallpaper = self.get_original_image(wallpaper_path)
+        
         # Forming the accurate horizontal layer
-        num_horizontal_repeats = wall_width / WallPreview.ROLL_WIDTH
+        num_horizontal_repeats = wall_width / roll_width
         int_horizontal_repeats = int(num_horizontal_repeats)
-        fractional_width = int((num_horizontal_repeats % 1) * wallpaper.shape[1])  # wallpaper.shape = (778, 513, 3)
-
+        fractional_width = int((num_horizontal_repeats % 1) * wallpaper.shape[1])
         horizontal_layers = [wallpaper]
-        for i in range(1, int_horizontal_repeats + 1):  # +1 to account for the fractional part
-            shifted_layer = np.roll(wallpaper, i * best_shift, axis=0)  # Apply the best vertical shift for each repeat
+        for i in range(1, int_horizontal_repeats):
+            shifted_layer = np.roll(wallpaper, i * best_shift, axis=0)
             horizontal_layers.append(shifted_layer)
-
         final_horizontal = np.hstack(horizontal_layers)
         if fractional_width > 0:
-            fractional_horizontal = np.roll(wallpaper[:, :fractional_width], (int_horizontal_repeats + 1) * best_shift, axis=0)
+            fractional_horizontal = np.roll(wallpaper[:, :fractional_width], int_horizontal_repeats * best_shift, axis=0)
             final_horizontal = np.hstack((final_horizontal, fractional_horizontal))
 
         # Forming the accurate vertical layer using the wallpaper height
-        aspect_ratio = image.shape[1] / image.shape[0]  # Assumes the entire image is cropped to show only the wall
+        ##### ASSUMPTION: The entire image is cropped to show only the wall
+        aspect_ratio = image.shape[1] / image.shape[0]
         in_accordance_height = final_horizontal.shape[1] / aspect_ratio
         num_vertical_repeats = in_accordance_height / wallpaper.shape[0]
         int_vertical_repeats = int(num_vertical_repeats)
-
-        vertical_layers = [final_horizontal] * (int_vertical_repeats + 1)  # +1 to account for the fractional part
-
-        final_both = np.vstack(vertical_layers)
+        if int_vertical_repeats > 0:
+            whole_vertical = np.vstack([final_horizontal] * int(num_vertical_repeats))
+        else:
+            whole_vertical = np.empty((0, final_horizontal.shape[1], final_horizontal.shape[2]), dtype=final_horizontal.dtype)
+        fractional_vertical = final_horizontal[:int((num_vertical_repeats % 1) * final_horizontal.shape[0]), :]
+        final_both = np.vstack((whole_vertical, fractional_vertical))
         
         # Resizing to form the correctly-sized final wallpaper
-        final_wallpaper = cv2.resize(final_both, (image.shape[1], image.shape[0]), interpolation=cv2.INTER_LINEAR)
+        final_wallpaper = cv2.resize(final_both, (image.shape[1], image.shape[0]), 
+                                        interpolation=cv2.INTER_LINEAR)
         
         # Applying the wallpaper onto the image
         image_plus_one = np.clip(image.astype(np.int32) + 1, 0, 255).astype(np.uint8)
@@ -174,11 +155,11 @@ class WallPreview:
         
         return wall_image
 
-    
 if __name__ == '__main__':
     user_wall = WallPreview()
-    user_wall.generate_wall_mask('TestWall.jpg')
-    result = user_wall.apply_wallpaper('TestWall.jpg', 'repeatable2.jpg', 86)
+    user_wall.generate_wall_mask('../../../../TestWall.jpg')
+    result = user_wall.apply_wallpaper('../../../../TestWall.jpg', '../../../../Test1.png', 86, 20.34, 21, 20.34, -1)
+    
     scaling_factor = 0.2
     width = int(result.shape[1] * scaling_factor)
     height = int(result.shape[0] * scaling_factor)
