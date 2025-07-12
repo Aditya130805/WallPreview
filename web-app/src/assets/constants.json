@@ -22,8 +22,7 @@
     "WALLPAPER_FOLDER_PATH": "../assets/Wallpapers/",
     "ALL_WALLPAPERS": ["wallpaper1.jpg", "wallpaper2.jpg", "wallpaper3.jpg", "wallpaper4.jpg", "wallpaper5.jpg", "wallpaper6.jpg", "wallpaper7.jpg", "wallpaper8.jpg", "wallpaper9.jpg", "wallpaper10.jpg", "wallpaper11.jpg", "wallpaper12.jpg", "wallpaper13.jpg", "wallpaper14.jpg", "wallpaper15.jpg", "wallpaper16.jpg"],
     "CUSTOM_WALLPAPER_NAME": "wallpaperCustom.jpg",
-    "API_URL_2": "https://wallpreview-production.up.railway.app",
-    "API_URL": "http://localhost:8000",
+    "API_URL": "https://wallpreview-production.up.railway.app",
 
     "ROLL_WIDTH_CAP": 100
 }
