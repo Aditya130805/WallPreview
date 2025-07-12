@@ -363,7 +363,7 @@ export default {
                     this.selectedWallpaper = constants.CUSTOM_WALLPAPER_NAME;
                     console.log(constants.WALLPAPER_CHOICE_INPUT_SUCCESS_MSG)
                     try {
-                        const response = await axios.post('http://localhost:8000/wallpaper-preview-initialize');
+                        const response = await axios.post(`${constants.API_URL}/wallpaper-preview-initialize`);
                         this.wallpaperShiftImage = response.data.image;
                         this.wallpaperShiftPerClick = Math.ceil(0.005 * response.data.height);
                         // TODO: Maybe keep the shift value to 0.5% of height of image.
@@ -401,7 +401,7 @@ export default {
         },
         // async adjustImageShift() {
         //     try {
-        //         const response = await axios.post('http://localhost:8000/wallpaper-preview-adjust', { shift: this.wallpaperShiftValue });
+        //         const response = await axios.post(`${constants.API_URL}/wallpaper-preview-adjust`, { shift: this.wallpaperShiftValue });
         //         this.wallpaperShiftImage = response.data.image;
         //     } catch (error) {
         //         console.error("Error adjusting preview:", error);
@@ -409,7 +409,7 @@ export default {
         // },
         throttleAdjustImageShift: _.throttle(async function() {
             try {
-                const response = await axios.post('http://localhost:8000/wallpaper-preview-adjust', { shift: this.wallpaperShiftValue });
+                const response = await axios.post(`${constants.API_URL}/wallpaper-preview-adjust`, { shift: this.wallpaperShiftValue });
                 this.wallpaperShiftImage = response.data.image;
             } catch (error) {
                 console.error("Error adjusting preview:", error);
